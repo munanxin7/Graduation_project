@@ -5,10 +5,19 @@ const joi = require('joi');
 const uname = joi.string().alphanum().min(3).max(10).required();
 const pwd = joi.string().pattern(/^[\S]{6,12}$/).required();
 
+
 // 验证规则对象 —— 注册、登录
 exports.reg_login_schema = {
   body: {
     uname,
     pwd
+  }
+}
+
+// 验证规则对象 —— 重置密码
+exports.update_password_schema = {
+  body: {
+    oldPwd: pwd,
+    newPwd: joi.not(joi.ref('oldPwd')).concat(pwd)
   }
 }

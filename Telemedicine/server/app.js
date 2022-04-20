@@ -23,14 +23,29 @@ app.use((req, res, next) => {
     res.send({
       status,
       message: err instanceof Error ? err.message : err
-    })
+    });
   }
   next();
 });
 
+// 配置解析 token 的中间件
+const expressJWT = require('express-jwt');
+const config = require('./config');
+
+app.use(expressJWT({
+  secret: config.jwtSecretKey,
+  algorithms: ['HS256']
+}).unless({
+  path: [/^\/api/]
+}));
+
 // 导入并使用用户路由模块
 const userRouter = require('./router/user');
 app.use('/api', userRouter);
+
+// 导入并使用用户信息管理路由模块
+const userinfoRouter = require('./router/userinfo');
+app.use('/my', userinfoRouter);
 
 // 定义错误级别的中间件
 app.use((err, req, res, next) => {

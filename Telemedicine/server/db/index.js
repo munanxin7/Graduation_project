@@ -15,7 +15,7 @@ const db = mysql.createPool({
     return console.log(err.message);
   }
   console.log('连接成功');
-})
- */
+}) */
+
 // 向外共享 db 数据库连接对象
 module.exports = db;
