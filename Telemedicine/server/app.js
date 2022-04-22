@@ -47,6 +47,10 @@ app.use('/api', userRouter);
 const userinfoRouter = require('./router/userinfo');
 app.use('/my', userinfoRouter);
 
+// 导入并使用会诊路由模块
+const caseRouter = require('./router/case');
+app.use('/my', caseRouter);
+
 // 定义错误级别的中间件
 app.use((err, req, res, next) => {
   // 验证失败导致的错误
