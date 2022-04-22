@@ -2,7 +2,7 @@
 const joi = require('joi');
 
 // 定义用户名和密码的验证规则
-const uname = joi.string().alphanum().min(3).max(10).required();
+const uname = joi.string().min(2).max(6).required();
 const pwd = joi.string().pattern(/^[\S]{6,12}$/).required();
 
 

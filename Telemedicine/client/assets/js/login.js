@@ -46,7 +46,7 @@ $(function () {
       type: "POST",
       url: "/api/reguser",
       data: data,
-      success: function (response) {
+      success: function (res) {
         if (res.status !== 0) {
           return layer.msg(res.message)
         }
