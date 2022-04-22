@@ -82,7 +82,7 @@ exports.updatePassword = (req, res) => {
 exports.updateAvatar = (req, res) => {
   // 定义更新用户头像的  SQL 语句
   const sql = `update telm_user set avatar=? where id=?`;
-  db.query(sql, [req.body.avatar, req, user.id], (err, results) => {
+  db.query(sql, [req.body.avatar, req.user.id], (err, results) => {
     if (err) {
       return res.cc(err);
     }

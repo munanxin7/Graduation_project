@@ -58,7 +58,7 @@ app.use((err, req, res, next) => {
     return res.cc('身份认证失败！')
   }
   // 未知的错误
-  res.cc(err);
+  return res.cc(err);
 })
 
 // 调用 app.listen 方法，指定端口号并启动 web 服务器
