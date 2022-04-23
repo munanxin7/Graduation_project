@@ -53,6 +53,10 @@ app.use('/my', userinfoRouter);
 const caseRouter = require('./router/case');
 app.use('/my', caseRouter);
 
+// 导入并使用历史路由模块
+const historyRouter = require('./router/history');
+app.use('/my', historyRouter);
+
 // 定义错误级别的中间件
 app.use((err, req, res, next) => {
   // 验证失败导致的错误

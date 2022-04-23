@@ -62,8 +62,6 @@ exports.getCase = (req, res) => {
       total: total
     })
   })
-
-
 }
 
 // 根据 id 获取病例详细信息的处理函数
