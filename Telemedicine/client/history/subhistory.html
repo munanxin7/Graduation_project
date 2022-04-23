@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../assets/lib/layui/css/layui.css">
+  <link rel="stylesheet" href="../assets/css/history/subhistory.css">
+</head>
+
+<body>
+  <!-- 我提交的会诊 -->
+  <div class="layui-card">
+    <div class="layui-card-header">我发布的会诊</div>
+    <div class="layui-card-body">
+      <div class="layui-tab layui-tab-card">
+        <ul class="layui-tab-title">
+          <li class="layui-this">未处理的会诊</li>
+          <li>已处理的会诊</li>
+        </ul>
+        <div class="layui-tab-content" style="height: 100px;">
+          <div class="layui-tab-item layui-show">
+            <table class="layui-table">
+              <colgroup>
+                <col width="150">
+                <col width="200">
+                <col width="150">
+                <col>
+                <col width="150">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>会诊编号</th>
+                  <th>发布时间</th>
+                  <th>发布地点</th>
+                  <th>描述</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="subCaseList">
+              </tbody>
+            </table>
+            <!-- 分页区域 -->
+            <div id="pageBox1"></div>
+          </div>
+          <!-- 第二页 -->
+          <div class="layui-tab-item">
+            <table class="layui-table">
+              <colgroup>
+                <col width="150">
+                <col width="200">
+                <col width="150">
+                <col>
+                <col width="150">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>会诊编号</th>
+                  <th>发布时间</th>
+                  <th>发布地点</th>
+                  <th>描述</th>
+                  <th>诊断</th>
+                </tr>
+              </thead>
+              <tbody id="handleCaseList">
+              </tbody>
+            </table>
+            <!-- 分页区域 -->
+            <div id="pageBox2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 弹出层 -->
+  <script type="text/html" id="dialog-update">
+    <form class="layui-form" id="form-update" lay-filter="form-update">
+      <!-- 隐藏域，保存 Id 的值 -->
+      <input type="hidden" name="id" id="updateId">
+      <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-block">
+          <input type="radio" name="gender" value="男" title="男">
+          <input type="radio" name="gender" value="女" title="女">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">年龄</label>
+        <div class="layui-input-block">
+          <input type="text" name="age" required lay-verify="required" placeholder="请输入患者的年龄" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">地址</label>
+        <div class="layui-input-block">
+          <input type="text" name="address" required lay-verify="required" placeholder="请输入患者所处医院" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">病情描述</label>
+        <div class="layui-input-block">
+          <textarea name="describe" placeholder="请输入患者病情的描述" class="layui-textarea"></textarea>
+        </div>
+      </div>
+      <!-- 隐藏的文件选择框 -->
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <input type="file" id="section" lay-verify="required" style="display:none;"
+            accept="image/png,image/jpeg,image/gif">
+          <button type="button" class="layui-btn layui-btn-danger" id="btnChooseImage">上传病理切片</button>
+          <img src="" alt="" id="prevImg">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" lay-submit lay-filter="formDemo">确认修改</button>
+        </div>
+      </div>
+    </form>
+  </script>
+
+  <script type="text/html" id="dialog-confirm">
+    <form class="layui-form" id="form-confirm">
+      <!-- 隐藏域，保存 id 的值 -->、
+      <input type="hidden" name="id" id="confirmId">
+      <table class="layui-table">
+        <colgroup>
+          <col width="150">
+          <col>
+        </colgroup>
+        <tbody id="confirm">
+        </tbody>
+      </table>
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" lay-submit lay-filter="formDemo">确认</button>
+        </div>
+      </div>
+    </form>
+  </script>
+  <!-- 定义我发布的会诊列表数据的模板引擎 -->
+  <script type="text/html" id="tpl-subhistory">
+    {{each data}}
+    <tr>
+      <td>{{$value.id}}</td>
+      <td>{{$value.sub_date|dateFormat}}</td>
+      <td>{{$value.address}}</td>
+      <td>{{$value.describe}}</td>
+      <td>
+        <button type="button" class="layui-btn layui-btn-xs btn-update" data-id="{{$value.id}}">修改</button>
+        <button type="button" class="layui-btn layui-btn-xs layui-btn-danger btn-delete"
+          data-id="{{$value.id}}">删除</button>
+      </td>
+    </tr>
+    {{/each}}
+  </script>
+
+
+  <script type="text/html" id="tpl-handledhistory">
+    {{each data}}
+    <tr>
+      <td>{{$value.id}}</td>
+      <td>{{$value.sub_date|dateFormat}}</td>
+      <td>{{$value.address}}</td>
+      <td>{{$value.describe}}</td>
+      <td>
+        <button type="button" class="layui-btn btn-confirm" data-id="{{$value.id}}">确认</button>
+      </td>
+    </tr>
+    {{/each}}
+  </script>
+
+  <script type="text/html" id="tpl-confirm">
+    <tr>
+      <td>患者性别</td>
+      <td>{{gender}}</td>
+    </tr>
+    <tr>
+      <td>患者年龄</td>
+      <td>{{age}}</td>
+    </tr>
+    <tr>
+      <td>患者地址</td>
+      <td>{{address}}</td>
+    </tr>
+    <tr>
+      <td>患者病情描述</td>
+      <td>{{describe}}</td>
+    </tr>
+    <tr>
+      <td>发布时间</td>
+      <td>{{sub_date}}</td>
+    </tr>
+    <tr>
+      <td>患者病理切片</td>
+      <td>
+        <div id="layer-photos" class="layer-photos-demo">
+          <img layer-src="http://127.0.0.1:3008{{section}}" src="http://127.0.0.1:3008{{section}}" alt="" id="section">
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>诊断意见</td>
+      <td>{{diagnosis}}</td>
+    </tr>
+  </script>
+
+  <script src="../assets/lib/layui/layui.js"></script>
+  <script src="../assets/lib/jquery-3.6.0.js"></script>
+  <script src="../assets/js/baseAPI.js"></script>
+  <script src="../assets/lib/template-web.js"></script>
+  <script src="../assets/js/history/subhistory.js"></script>
+</body>
+
+</html>

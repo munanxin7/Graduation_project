@@ -25,6 +25,7 @@ const {
 // 在这里挂载路由
 // 查看我提交的待处理会诊的路由
 router.get('/subhistory/unhandle', history_handler.getUnhandleHistory);
+// 根据 id 查看会诊的路由
 // 查看我提交的已处理的路由
 router.get('/subhistory/handle', history_handler.getHandleHistory);
 // 修改会诊的路由

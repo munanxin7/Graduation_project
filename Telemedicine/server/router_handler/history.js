@@ -89,18 +89,17 @@ exports.updateCase = (req, res) => {
     }
     res.cc('修改成功！', 0);
   })
-
 }
 
 // 删除为被处理的会诊的处理函数
 exports.deleteCase = (req, res) => {
   // 定义根据 id 删除会诊的 SQL 语句
-  const sql = `delete from telm_case where id=?`;
+  const sql = `update telm_case set is_delete=1 where id=?`;
   db.query(sql, req.params.id, (err, results) => {
     if (err) {
       return res.cc(err);
     }
-    if (res.affectedRows !== 1) {
+    if (results.affectedRows !== 1) {
       return res.cc('删除会诊失败！');
     }
     res.cc('删除成功！', 0);
