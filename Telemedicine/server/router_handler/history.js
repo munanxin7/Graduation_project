@@ -109,7 +109,7 @@ exports.deleteCase = (req, res) => {
 // 确认已被处理的会诊的处理函数
 exports.confirmCase = (req, res) => {
   // 定义确认的 SQL 语句
-  const sql = `update telm_case set is_comfirm=1 where id=?`;
+  const sql = `update telm_case set is_comfirm=1,is_pub=1 where id=?`;
   db.query(sql, req.params.id, (err, results) => {
     if (err) {
       return res.cc(err);
