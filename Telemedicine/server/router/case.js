@@ -19,7 +19,8 @@ const upload = multer({
 // 导入验证规则对象的中间件
 const expressJoi = require('@escook/express-joi');
 const {
-  addCase_schema
+  addCase_schema,
+  handleCase_schema
 } = require('../schema/case');
 
 // 在这里挂载路由
@@ -30,6 +31,6 @@ router.get('/getCase', case_handler.getCase);
 // 根据 id 获取病例详情的路由
 router.get('/case/:id', case_handler.getCaseInfo);
 // 根据 id 处理远程会诊的路由
-router.post('/handleCase', case_handler.handleCase);
+router.post('/handleCase', expressJoi(handleCase_schema), case_handler.handleCase);
 
 module.exports = router;

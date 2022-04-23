@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../assets/lib/layui/css/layui.css">
+  <link rel="stylesheet" href="../assets/css/case/addCase.css">
+</head>
+
+<body>
+  <!-- 发起会诊 -->
+  <div class="layui-card">
+    <div class="layui-card-header">发起会诊</div>
+    <div class="layui-card-body">
+      <form class="layui-form" id="form-pub">
+        <div class="layui-form-item">
+          <label class="layui-form-label">性别</label>
+          <div class="layui-input-block">
+            <input type="radio" name="gender" value="男" title="男">
+            <input type="radio" name="gender" value="女" title="女">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">年龄</label>
+          <div class="layui-input-block">
+            <input type="text" name="age" required lay-verify="required" placeholder="请输入患者的年龄" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">地址</label>
+          <div class="layui-input-block">
+            <input type="text" name="address" required lay-verify="required" placeholder="请输入患者所处医院" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">病情描述</label>
+          <div class="layui-input-block">
+            <textarea name="describe" placeholder="请输入患者病情的描述" class="layui-textarea"></textarea>
+          </div>
+        </div>
+        <!-- 隐藏的文件选择框 -->
+
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <input type="file" id="section" lay-verify="required" style="display:none;"
+              accept="image/png,image/jpeg,image/gif">
+            <button type="button" class="layui-btn layui-btn-danger" id="btnChooseImage">上传病理切片</button>
+            <img src="" alt="" id="prevImg">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="../assets/lib/layui/layui.js"></script>
+  <script src="../assets/lib/jquery-3.6.0.js"></script>
+  <script src="../assets/js/baseAPI.js"></script>
+  <script src="../assets/js/case/addCase.js"></script>
+</body>
+
+</html>

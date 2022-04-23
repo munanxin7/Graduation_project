@@ -14,6 +14,8 @@ const joi = require('joi');
 app.use(express.urlencoded({
   extended: false
 }));
+// 托管静态资源文件
+app.use('/uploads', express.static('./uploads'));
 
 // 回调函数：处理成功或错误信息
 app.use((req, res, next) => {

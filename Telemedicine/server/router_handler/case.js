@@ -14,7 +14,7 @@ exports.addCase = (req, res) => {
     // 患者的性别、年龄、地址、病情描述
     ...req.body,
     // 病理切片在服务端的存放路径
-    section: path.join('/uploads', req.file.fieldname),
+    section: path.join('/uploads', req.file.filename),
     // 发布时间
     sub_date: new Date(),
     // 发布者的id
@@ -36,16 +36,16 @@ exports.addCase = (req, res) => {
 
 // 获取待处理的病理数据的处理函数
 exports.getCase = (req, res) => {
-  const pagenum = req.body.pagenum;
-  const pagesize = req.body.pagesize;
+  const pagenum = req.query.pagenum;
+  const pagesize = req.query.pagesize;
   const begin = (pagenum - 1) * pagesize;
-  const total = 0;
+  var total = 0;
   // 定义查询分类列表数据的 SQL 语句
-  const sql = `select * from telm_case where is_delete=0 and is_handle=0 order by id desc limit ` + begin + `,` + pagesize;
+  const sql = `select * from telm_case where is_delete=0 and is_handle=0 order by id limit ` + begin + `,` + pagesize;
 
   // 定义获取总条数的 SQL 语句
-  const totalSql = `select id,p_id,address,sub_date from telm_case where is_delete=0 and is_handle=0`;
-  db.query(sql, (err, results) => {
+  const totalSql = `select * from telm_case where is_delete=0 and is_handle=0`;
+  db.query(totalSql, (err, results) => {
     if (err) {
       return res.cc(err);
     }
@@ -96,6 +96,6 @@ exports.handleCase = (req, res) => {
     if (results.affectedRows !== 1) {
       return res.cc('诊断失败！');
     }
-    res.cc('成功诊断');
+    res.cc('成功诊断', 0);
   })
 }

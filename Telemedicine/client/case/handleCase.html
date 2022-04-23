@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../assets/lib/layui/css/layui.css">
+  <link rel="stylesheet" href="../assets/css/case/handleCase.css">
+</head>
+
+<body>
+  <!-- 处理会诊 -->
+  <div class="layui-card">
+    <div class="layui-card-header">处理会诊</div>
+    <div class="layui-card-body">
+      <!-- 列表区域 -->
+      <table class="layui-table">
+        <colgroup>
+          <col width="150">
+          <col width="200">
+          <col width="150">
+          <col>
+          <col width="150">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>会诊编号</th>
+            <th>发布时间</th>
+            <th>发布地点</th>
+            <th>描述</th>
+            <th>诊断</th>
+          </tr>
+        </thead>
+        <tbody id="caseList">
+        </tbody>
+      </table>
+      <!-- 分页区域 -->
+      <div id="pageBox"></div>
+    </div>
+  </div>
+
+
+  <!-- 弹出层 -->
+  <script type="text/html" id="dialog-handle">
+    <form class="layui-form" id="form-handle">
+      <!-- 隐藏域，保存 id 的值 -->、
+      <input type="hidden" name="id">
+      <table class="layui-table">
+        <colgroup>
+          <col width="150">
+          <col>
+        </colgroup>
+        <tbody id="caseInfo">
+        </tbody>
+      </table>
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">诊断意见</label>
+        <div class="layui-input-block">
+          <textarea name="diagnosis" placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" lay-submit lay-filter="formDemo">提交诊断意见</button>
+        </div>
+      </div>
+    </form>
+  </script>
+
+  <!-- 列表数据的模板引擎 -->
+  <script type="text/html" id="tpl-table">
+    {{each data}}
+    <tr>
+      <td>{{$value.id}}</td>
+      <td>{{$value.sub_date|dateFormat}}</td>
+      <td>{{$value.address}}</td>
+      <td>{{$value.describe}}</td>
+      <td><button type="button" class="layui-btn btn-handle" data-id="{{$value.id}}">开始诊断</button></td>
+    </tr>
+    {{/each}}
+  </script>
+
+  <!-- 详细信息的模板引擎 -->
+  <script type="text/html" id="tpl-caseInfo">
+    <tr>
+      <td>患者性别</td>
+      <td>{{gender}}</td>
+    </tr>
+    <tr>
+      <td>患者年龄</td>
+      <td>{{age}}</td>
+    </tr>
+    <tr>
+      <td>患者地址</td>
+      <td>{{address}}</td>
+    </tr>
+    <tr>
+      <td>患者病情描述</td>
+      <td>{{describe}}</td>
+    </tr>
+    <tr>
+      <td>发布时间</td>
+      <td>{{sub_date}}</td>
+    </tr>
+    <tr>
+      <td>患者病理切片</td>
+      <td>
+        <div id="layer-photos" class="layer-photos-demo">
+          <img layer-src="http://127.0.0.1:3008{{section}}" src="http://127.0.0.1:3008{{section}}" alt="" id="section">
+        </div>
+      </td>
+    </tr>
+  </script>
+
+
+
+  <script src="../assets/lib/layui/layui.js"></script>
+  <script src="../assets/lib/jquery-3.6.0.js"></script>
+  <script src="../assets/js/baseAPI.js"></script>
+  <script src="../assets/lib/template-web.js"></script>
+  <script src="../assets/js/case/handleCase.js"></script>
+</body>
+
+</html>
